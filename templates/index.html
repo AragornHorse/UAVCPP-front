@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAVs cpp api</title>
+    <script>MathJax = {tex: {inlineMath: [['$', '$'],['$$', '$$'], ['\\(', '\\)']]}}</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            height: 100%;
+        }
+        .console {
+            flex: 0 0 32%; 
+            background-color: #f0f0f0;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        .output {
+            flex: 1; 
+            background-color: #ffffff;
+            padding: 20px;
+            box-sizing: border-box; 
+            overflow-y: auto; 
+            border-left: 1px solid #ccc; 
+        }
+        textarea {
+            width: 100%;
+            height: 80%;
+            box-sizing: border-box; 
+        }
+        .console-block{
+            width: 95%;
+            margin-left: 2.5%;
+            margin-top: 0.5%;
+            padding: 2px;
+            border-radius: 15px;
+        }
+        .title{
+            width: 97.9%;
+            height: 6%;
+            padding: 5px;
+            background-color: #232425;
+            color: #f0f0f0;
+            display: flex;
+        }
+        nav {
+            background-color: #333;
+        }
+        .horizontal-menu {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .horizontal-menu li {
+            width: 20%;
+            float: left;
+        }
+        
+        .horizontal-menu li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 10px 10px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .horizontal-menu li a:hover {
+            background-color: #111;
+        }
+        .console-subblock{
+            background-color: #d4d6d7;
+            padding: 10px;
+            width: 93%;
+            margin-left: 1%;
+            margin-top: 1%;
+        }
+        .console-subblock b{
+            text-align: center;
+            padding-left: 40%;
+            font-size: 18px;
+        }
+        .console-subblock div{
+            padding: 2%;
+        }
+        .console-subblock div{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .console-subblock div div{
+            padding: 1px;
+            width: 45%;
+        }
+        .console-subblock div div div{
+            padding: 1px;
+            width: 45%;
+        }
+        .console-subblock div div input, select{
+            width: 30%;
+        }
+        .console-buttons{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .console-buttons button{
+            width: 30%;
+            padding: 1%;
+            margin-left: 3%;
+            margin-top: 3%;
+        }
+        iframe{
+            display: block;
+            width: 100%;
+            height: 60%;
+        }
+        .log{
+            width: 100%;
+            height: 40%;
+            background-color: #e7e9ec;
+        }
+        .log-title{
+            display: flex;
+            width: 95%;
+            height: 8%;
+            background-color: #353232;
+            color: #f3f2f2;
+            font-weight: bold;
+            font-size: 18px;
+            padding-left: 5%;
+            padding-top: 3px;
+            padding-bottom: 3px;
+        }
+        .log-title button{
+            margin-left: 2%;
+        }
+        .content{
+            width: 100%;
+            height: 80%;
+            overflow-x: auto;
+            overflow-y: auto;
+            padding: 1%;
+        }
+        .content-block{
+            padding: 1%;
+            width: 95%;
+            background-color: #e1e2e8;
+            margin-top: 1%;
+        }
+        .content-block table{
+            width: 80%;
+            padding: 2px;
+            text-align: left;
+        }
+        .content-block img{
+            width: 40%;
+            height: 60%;
+        }
+        .equation{
+            text-align: center;
+            width: 90%;
+            margin-left: 5%;
+            padding: 1%;
+            background-color: #ccd1ce;
+            margin-top: 1%;
+        }
+        #about{
+            display: none;
+            width: 100%;
+            height: 60%;
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<script src="./client.js"></script>
+<body  onload="initial_body()">
+    <div class="container">
+
+        <div class="console">
+            <div class="title">
+                <div style="width: 20%;">
+                    <button onclick="output_config()">导出配置</button>
+                    <button onclick="input_config()">导入配置</button>
+                    <input type="file" id="input_config" style="display: none;" onchange="read_config()">
+                </div>
+                <div style="text-align: center; font-weight: bold; font-size: 24px; width: 68%;">控制台</div>
+                <div style="width: 10%; font-size: 16px; height: 90%; text-align: center; margin-top: 2%; cursor: pointer;" onclick="about()" id="about_btn">
+                    文档
+                </div>
+            </div>
+            <nav>
+                <ul class="horizontal-menu">
+                    <li onclick="change_menu('scene')" id="scene_menu" style="background-color: #46484a;"><a>场景设定</a></li>
+                    <li onclick="change_menu('match')" id="match_menu"><a>UAV匹配</a></li>
+                    <li onclick="change_menu('insert')" id="insert_menu"><a>插入中转</a></li>
+                    <li onclick="change_menu('path')" id="path_menu"><a>路径优化</a></li>
+                    <li onclick="change_menu('output')" id="output_menu"><a>输出</a></li>
+                </ul>
+            </nav>
+
+            <div class="console-block" id="scene">
+                <div class="console-subblock">
+                    <b>UAV</b>
+                    <div>
+                        <div><div>直径</div><input type="number" id="uav_dx"></div>
+                    </div>
+                </div>
+
+                <div class="console-subblock">
+                    <b>初始位置</b>
+                    <div>
+                        <div><div>x轴数量</div><input type="number" id="xyz0_xnum"></div>
+                        <div><div>y轴数量</div><input type="number" id="xyz0_ynum"></div>
+                        <div><div>UAV间隔</div><input type="number" id="xyz0_dx"></div>
+                        <div><div>最小x坐标</div><input type="number" id="xyz0_x"></div>
+                        <div><div>最小y坐标</div><input type="number" id="xyz0_y"></div>
+                        <div><div>最小z坐标</div><input type="number" id="xyz0_z"></div>
+                    </div>
+                </div>
+
+                <div class="console-subblock">
+                    <b>终止位置</b>
+                    <div>
+                        <div><div>法向量x</div><input type="number" id="xyze_vec_x"></div>
+                        <div><div>法向量y</div><input type="number" id="xyze_vec_y"></div>
+                        <div><div>法向量z</div><input type="number" id="xyze_vec_z"></div>
+                        <div><div>UAV间隔</div><input type="number" id="xyze_dx"></div>
+                        <div><div>最小x坐标</div><input type="number" id="xyze_x"></div>
+                        <div><div>最小y坐标</div><input type="number" id="xyze_y"></div>
+                        <div><div>最小z坐标</div><input type="number" id="xyze_z"></div>
+                        <div><div>上传照片</div><input type="file" id="xyze_file"></div>
+                    </div>
+                </div>
+
+                <div class="console-buttons">
+                    <button onclick="create_project()">创建项目</button>
+                    <button onclick="reset_uav()">还原</button>
+                </div>
+
+                <div class="console-subblock">
+                    <b>项目管理</b>
+                    <div>
+                        <div><div>项目id</div><input type="text" id="pid"></div>
+                    </div>
+                </div>
+
+                <div class="console-buttons">
+                    <button onclick="load_project()">加载项目</button>
+                    <button onclick="delete_project()">删除项目</button>
+                    <button onclick="list_projects()">项目列表</button>
+                    <button onclick="view_projects()">预览项目</button>
+                </div>
+            </div>
+
+            <div class="console-block" id="match" style="display: none;">
+                <div class="console-subblock">
+                    <b>UAV匹配</b>
+                    <div>
+                        <div><div>最大迭代</div><input type="number" id="match_iter_num"></div>
+                    </div>
+                </div>
+    
+                <div class="console-buttons">
+                    <button onclick="set_match()">设为默认</button>
+                    <button onclick="start_match()">开始迭代</button>
+                    <button onclick="stop_running()">终止</button>
+                </div>
+            </div>
+
+            <div class="console-block" id="insert" style="display: none;">
+                <div class="console-subblock">
+                    <b>中转面设定</b>
+                    <div>
+                        <div><div>宽度</div><input type="number" id="insert_wh"></div>
+                        <div><div>法向量x</div><input type="number" id="insert_vec_x"></div>
+                        <div><div>法向量y</div><input type="number" id="insert_vec_y"></div>
+                        <div><div>法向量z</div><input type="number" id="insert_vec_z"></div>
+                        <div><div>中点x</div><input type="number" id="insert_x"></div>
+                        <div><div>中点y</div><input type="number" id="insert_y"></div>
+                        <div><div>中点z</div><input type="number" id="insert_z"></div>
+                    </div>
+                </div>
+
+                <div class="console-subblock">
+                    <b>插入位置</b>
+                    <div>
+                        <div><div>段编号</div><input type="number" id="insert_seg_idx"></div>
+                    </div>
+                </div>
+
+                <div class="console-subblock">
+                    <b>求解器参数</b>
+                    <div>
+                        <div><div>UAV间距</div><input type="number" id="insert_dis" onchange="draw_eq_insert()"></div>
+                        <div><div>$w_{max}$</div><input type="number" id="insert_w_max" onchange="draw_eq_insert()"></div>
+                        <div><div>$w_{dis}$</div><input type="number" id="insert_w_dis" onchange="draw_eq_insert()"></div>
+                        <div><div>学习率</div><input type="number" id="insert_lr"></div>
+                        <div><div>迭代次数</div><input type="number" id="insert_iter_num"></div>
+                        <div>
+                            <div>约束模式</div>
+                            <select id="insert_mode" onchange="draw_eq_insert()">
+                                <option value="add">减法</option>
+                                <option value="div">除法</option>
+                            </select>
+                        </div>
+                        <div><div>只可行解</div><input type="checkbox" id="insert_fea"></div>
+                    </div>
+                </div>
+    
+                <div class="console-buttons">
+                    <button onclick="save_insert()">设为默认</button>
+                    <button onclick="reset_insert()">恢复默认</button>
+                    <button onclick="start_insert()">开始迭代</button>
+                    <button onclick="stop_running()">终止</button>
+                </div>
+
+                <div class="equation" id="eq_insert"></div>
+
+                <div class="console-subblock">
+                    <b>取消中转</b>
+                    <div>
+                        <div><div>中转序号</div><input type="number" id="insert_cancel_seg_idx"></div>
+                    </div>
+                </div>
+    
+                <div class="console-buttons">
+                    <button onclick="cancel_insert()">取消中转</button>
+                </div>
+            </div>
+            
+            <div class="console-block" id="path" style="display: none;">
+                <div class="console-subblock">
+                    <b>优化对象</b>
+                    <div>
+                        <div><div>段编号</div><input type="number" id="path_seg_idx"></div>
+                    </div>
+                </div>
+
+                <div class="console-subblock">
+                    <b>初始化</b>
+                    <div>
+                        <div>
+                            <div>初始化模式</div>
+                            <select id="path_init_mode">
+                                <option value="rea">线性差值</option>
+                                <option value="inter">交点</option>
+                                <option value="proj">投影</option>
+                            </select>
+                        </div>
+                        <div><div>关键点数</div><input type="number" id="path_N"></div>
+                    </div>
+                </div>
+
+                <div class="console-subblock">
+                    <b>优化器参数</b>
+                    <div>
+                        <div><div>UAV间距</div><input type="number" id="path_dis" onchange="draw_eq_path()"></div>
+                        <div><div>平行间距</div><input type="number" id="path_seg_dis" onchange="draw_eq_path()"></div>
+                        <div><div>点线间距</div><input type="number" id="path_cross_dis" onchange="draw_eq_path()"></div>
+                        <div><div>交叉间距</div><input type="number" id="path_cross_seg_dis" onchange="draw_eq_path()"></div>
+                        <div><div>$w_{max}$</div><input type="number" id="path_w_max" onchange="draw_eq_path()"></div>
+                        <div><div>$w_{UAV}$</div><input type="number" id="path_w_dis" onchange="draw_eq_path()"></div>
+                        <div><div>$w_{平行}$</div><input type="number" id="path_w_seg_dis" onchange="draw_eq_path()"></div>
+                        <div><div>$w_{点线}$</div><input type="number" id="path_w_cross_dis" onchange="draw_eq_path()"></div>
+                        <div><div>$w_{交叉}$</div><input type="number" id="path_w_cross_seg_dis" onchange="draw_eq_path()"></div>
+                        <div><div>只可行解</div><input type="checkbox" id="path_fea"></div>
+                        <div><div>迭代次数</div><input type="number" id="path_iter_num"></div>
+                        <div><div>学习率</div><input type="number" id="path_lr"></div>
+                        <div>
+                            <div>约束模式</div>
+                            <select id="path_mode" onchange="draw_eq_path()">
+                                <option value="add">减法</option>
+                                <option value="div">除法</option>
+                            </select>
+                        </div>
+                        <div>
+                            <div>投影模式</div>
+                            <select id="path_proj_mode">
+                                <option value="rea">线性差值</option>
+                                <option value="inter">交点</option>
+                                <option value="proj">投影</option>
+                                <option value="dyn">动态投影</option>
+                                <option value="clip">限制长度</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="console-buttons">
+                    <button onclick="split_all()">细化路段</button>
+                    <button onclick="save_path()">设为默认</button>
+                    <button onclick="reset_path()">恢复默认</button>
+                    <button onclick="start_path()">开始迭代</button>
+                    <button onclick="stop_running()">终止</button>
+                </div>
+
+                <div class="equation" id="eq_path"></div>
+            </div>
+
+            <div class="console-block" id="output" style="display: none;">
+                <div class="console-subblock">
+                    <b>输出设定</b>
+                    <div>
+                        <div><div>总帧数</div><input type="number" id="output_nframe"></div>
+                        <div>
+                            <div>插帧模式</div>
+                            <select id="output_mode">
+                                <option value="linear">线性插值</option>
+                                <option value="nocol">避免碰撞</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="console-buttons">
+                    <button onclick="save_output()">设为默认</button>
+                    <button onclick="reset_output()">恢复默认</button>
+                    <button onclick="start_output()">输出结果</button>
+                    <button onclick="stop_running()">终止</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="output">
+
+            <iframe src="https://dev-v4.t.mmcuav.cn/#/emulate" frameborder="0" id="iframe"></iframe>
+            <iframe src="https://uzqh6yvf0g.feishu.cn/wiki/UpzJwBIfFiWvrSkIs1pcM9wfnFe?from=from_copylink" frameborder="0" id="about"></iframe>
+            
+            <div class="log" id="log">
+                <div class="log-title">
+                    <div>日志</div> 
+                    <div style="width: 7%;"></div>
+                    <button onclick="clear_log()">清空</button>
+                </div>
+                <div class="content" id="content"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
