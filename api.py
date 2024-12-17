@@ -52,7 +52,7 @@ def create_project():
     data = json.loads(data)
 
     if len(projects) > max_project_num:
-        return "max project number"
+        return json.dumps({'status': "max project number"})
 
     pid = generate_pid()
     time = str(datetime.now())
@@ -93,7 +93,7 @@ def create_project():
         xyz0, xyze
     ), data]
     return json.dumps({
-        'status': 'Succeed',
+        'status': 'succeed',
         'pid': pid
     })
 
@@ -127,10 +127,7 @@ def start_match():
 
     def match():
         for resp in solver.match(iter_num):
-            if resp is None:
-                return json.dumps([])
-            else:
-                yield '\n' + json.dumps(list(resp))
+            yield '\n' + json.dumps(resp)
 
     return Response(stream_with_context(match()), content_type='application/json; charset=utf-8')
 
@@ -209,12 +206,7 @@ def start_insert():
         for resp in solver.insert_intermediate_position(
                 seg_idx, wh, vecs, x0, danger_duv, w_max, w_dis, lr, max_iter, mode, feasible_solution
         ):
-            if resp is None:
-                return '\n' + json.dumps({
-                    'status': 'interrupted'
-                })
-            else:
-                yield '\n' + json.dumps(resp)
+            yield '\n' + json.dumps(resp)
 
     return Response(stream_with_context(insert()), content_type='application/json; charset=utf-8')
 

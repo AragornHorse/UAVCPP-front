@@ -136,7 +136,6 @@ function stream_post(url, data, func_stream, func_final){
 function list_projects(){
     post(
         "./list_projects", null, function(resp){
-            // var resp = JSON.stringify(resp);
             var resp = JSON.parse(resp);
             var data = "<table><tr>";
             var h = true;
@@ -217,9 +216,13 @@ function create_project(){
         }), function(resp){
             try{
                 resp = JSON.parse(resp);
-                pid = resp['pid'];
-                document.getElementById('pid').value = pid;
-                print(`成功创建: ${pid}`);
+                if(resp['status'] == 'succeed'){
+                    pid = resp['pid'];
+                    document.getElementById('pid').value = pid;
+                    print(`成功创建: ${pid}`);
+                }else{
+                    print(resp['status']);
+                }
             }catch{
                 print(resp);
             }
@@ -238,9 +241,13 @@ function create_project(){
             }), function(resp){
                 try{
                     resp = JSON.parse(resp);
-                    pid = resp['pid'];
-                    document.getElementById('pid').value = pid;
-                    print(`成功创建: ${pid}`);
+                    if(resp['status'] == 'succeed'){
+                        pid = resp['pid'];
+                        document.getElementById('pid').value = pid;
+                        print(`成功创建: ${pid}`);
+                    }else{
+                        print(resp['status']);
+                    }
                 }catch{
                     print(resp);
                 }
@@ -342,6 +349,8 @@ function start_match(){
         }catch{
 
         }
+        // print(resp);
+        resp = resp['upper'];
         print(`迭代完成, 当前最大位移为${resp[0]}, 平均位移为${resp[1]}.`);
     })
 }
@@ -597,7 +606,7 @@ function start_output(){
         return false;
     }
     var dis = uav.dx;
-    print('开始输出');
+    print('开始输出，耐心等待');
     post("./start_output", JSON.stringify({
         pid: pid,
         dis: dis,

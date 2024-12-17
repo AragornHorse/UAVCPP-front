@@ -16,18 +16,19 @@ class Solver:
 
     def match(self, max_iter=50):
         if len(self.segments) > 1:
-            import warnings
-            warnings.warn("You are matching after inserting intermediate positions")
+            yield {'status': 'warning: more than 1 segments'}
 
         if self.running:
-            return None
+            return {'status': 'still running'}
         self.running = True
+
         seg = self.segments[-1]
         solves = None
+
         for upper, solves, log_rate in matching.match(
             seg.xyz0, seg.xyze, only_one_solve=True, max_iter=max_iter
         ):
-            yield upper
+            yield {'status': 'succeed', 'upper': upper}
             if not self.running:
                 break
 
@@ -41,7 +42,7 @@ class Solver:
 
     def combine_segments(self, seg1_idx, N=None):
         if len(self.segments) < 2:
-            return None
+            return {'status': "can't combine less than 2 segments"}
         seg2 = self.segments.pop(seg1_idx + 1)
         seg1 = self.segments.pop(seg1_idx)
         N_ = seg1.N + seg2.N + 1
@@ -60,7 +61,7 @@ class Solver:
                                      feasible_solution=True
                                      ):
         if self.running:
-            return None
+            return {'status': 'running'}
         self.running = True
         seg = self.segments[seg_idx]
         init_mode = seg.init_mode
@@ -219,7 +220,7 @@ class Solver:
             if seg.N is not None:
                 N += seg.N
         N += seg_num + 1
-        if self.segments[0].xyz0 is not None:
+        if len(self.segments) > 0 and self.segments[0].xyz0 is not None:
             n = self.segments[0].xyz0.shape[0]
         else:
             n = None
