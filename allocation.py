@@ -20,7 +20,7 @@ def image_to_points(image, uav_total_num, dx, w=512, h=512):
     gray = clahe.apply(gray)
 
     # binary
-    _, binary = cv2.threshold(gray, min([int(np.mean(gray) * 1.5), 170]), 255, cv2.THRESH_BINARY)
+    _, binary = cv2.threshold(gray, min([int(np.mean(gray) * 1.5), 150]), 255, cv2.THRESH_BINARY)
 
     # remove tiny lines
     kernel = np.ones((5, 5), np.uint8)
@@ -67,11 +67,11 @@ def image_to_points(image, uav_total_num, dx, w=512, h=512):
 
 if __name__ == '__main__':
 
-    image_path = r"C:\Users\Dell\Desktop\dt\cpp\de.png"
+    image_path = r"C:\Users\Dell\Desktop\dt\cpp\pkq.png"
     image = cv2.imread(image_path)
     image = np.array(image)        # h, w, 3
 
-    uav_total_num = 100
+    uav_total_num = 450
     dx = 2.
 
     points = image_to_points(image, uav_total_num, dx)
