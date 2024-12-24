@@ -94,7 +94,99 @@ ___________
 
 - pid
    - ``time`` (string): create time
-   - ````
+   - ``seg_num`` (string): segment number
+   - ``N`` (int): key point number per UAV
+   - ``n`` (int): UAV number
+   - ``running`` (bool): solver status
+
+
+delete project
+___________
+
+**path** : ``/delete_project``
+
+**method**: POST
+
+**parameters**:
+
+- pid
+
+**response**:
+
+- pid
+   - ``time`` (string): create time
+   - ``seg_num`` (string): segment number
+   - ``N`` (int): key point number per UAV
+   - ``n`` (int): UAV number
+   - ``running`` (bool): solver status
+
+
+
+insert transfer plane
+___________
+
+**path** : ``/start_insert``
+
+**method**: POST
+
+**parameters**:
+
+- ``wh`` (float): weight of the transfer plane
+- ``vec`` ([float, float, float]): Normal vector
+- ``xyz0`` ([float, float, float]): Midpoint coordinate
+- ``seg_idx`` (int): segment id to insert
+- ``dis`` (float): threshold of point pair distance
+- ``w_max`` (float): loss weight
+- ``w_dis`` (float): regularization weight
+- ``lr`` (float): learning rate
+- ``iter_num`` (int): maximum iteration time
+- ``mode`` (string): loss function mode, choose from add, div
+- ``fea`` (bool): whether only feasible solution
+- ``pid`` (string): pid
+
+**response** (stream):
+
+- ``status`` : "succeed"
+- ``loss`` (float): loss
+- ``danger_num`` : The number of distances less than the threshold
+- ``avg_seg`` : average path length
+- ``max_seg`` : maximum path length
+
+
+
+delete transfer plane
+___________
+
+**path** : ``/cancel_insert``
+
+**method**: POST
+
+**parameters**:
+
+- ``seg_idx`` (int): segment id to delete
+- ``pid`` (string): pid
+
+**response** (stream):
+
+- ``status`` : "succeed"
+- ``pid`` (string): pid
+
+
+
+stop running
+___________
+
+**path** : ``/stop_running``
+
+**method**: POST
+
+**parameters**:
+
+- pid
+
+**response**:
+
+- ``status``: "succeed"
 
 
 
@@ -165,3 +257,59 @@ ___________
 
 
 
+output
+___________
+
+**path** : ``/start_output``
+
+**method**: POST
+
+**parameters**:
+
+- ``pid`` (string): pid
+- ``dis`` (int): diameter of UAV
+- ``mode`` (string): algorithm to generate frames, choose from linear, nocol
+- 'nframe' (int): number of frame
+
+**response**:
+
+- ``status`` : 'succeed'
+- ``col_num`` (int): Number of collisions
+- ``col_rate`` (float): rate of collisions
+- ``rst`` (bool): status of algorithm
+- ``result`` : json result
+
+
+
+Visualization
+___________
+
+**path** : ``/view_projects``
+
+**method**: POST
+
+**parameters**:
+
+- pid
+
+**response**:
+
+- ``status`` : 'succeed'
+- ``image`` : base64 encode of image
+
+
+
+split
+___________
+
+**path** : ``/split_all``
+
+**method**: POST
+
+**parameters**:
+
+- pid
+
+**response**:
+
+- ``status`` : 'succeed'

@@ -33,11 +33,301 @@
             
   <section id="uavcpp-front-documentation">
 <h1>UAVCPP-front documentation<a class="headerlink" href="#uavcpp-front-documentation" title="Link to this heading">¶</a></h1>
-<p>Add your content using <code class="docutils literal notranslate"><span class="pre">reStructuredText</span></code> syntax. See the
-<a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html">reStructuredText</a>
-documentation for details.</p>
-<div class="toctree-wrapper compound">
-</div>
+<section id="apis">
+<h2>APIs<a class="headerlink" href="#apis" title="Link to this heading">¶</a></h2>
+<section id="test">
+<h3>test<a class="headerlink" href="#test" title="Link to this heading">¶</a></h3>
+<p><strong>path</strong> : <code class="docutils literal notranslate"><span class="pre">/test</span></code></p>
+<p><strong>method</strong>: GET</p>
+<p><strong>parameters</strong>:none</p>
+<p><strong>response</strong>: <code class="docutils literal notranslate"><span class="pre">&quot;hi&quot;</span></code></p>
+</section>
+<section id="create-project">
+<h3>create project<a class="headerlink" href="#create-project" title="Link to this heading">¶</a></h3>
+<p><strong>path</strong> : <code class="docutils literal notranslate"><span class="pre">/create_project</span></code></p>
+<p><strong>method</strong>: POST</p>
+<p><strong>parameters</strong>:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">uav</span></code></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">dx</span></code> (float): The diameter of an UAV</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">xyz0</span></code><span class="classifier">the UAVs square array at the initial moment</span></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">xnum</span></code> (int): The number of UAVs in the x-axis direction</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ynum</span></code> (int): The number of UAVs in the y-axis direction</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dx</span></code> (float): The distance between UAVs</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xyz0</span></code> ([float, float, float]): The minimum xyz coordinate</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">xyze</span></code><span class="classifier">the final pattern plane</span></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">vec</span></code> ([float, float, float]): The normal vector of</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dx</span></code> (float): The distance between UAVs</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xyz0</span></code> ([float, float, float]): The minimum xyz coordinate</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">file</span></code> : null</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">image</span></code> (string): Base64 encoding of the final pattern image</p></li>
+</ul>
+<p><strong>response</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code> : “succeed”</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pid</span></code> : project identify (pid)</p></li>
+</ul>
+</section>
+<section id="load-project">
+<h3>load project<a class="headerlink" href="#load-project" title="Link to this heading">¶</a></h3>
+<p><strong>path</strong> : <code class="docutils literal notranslate"><span class="pre">/load_project</span></code></p>
+<p><strong>method</strong>: POST</p>
+<p><strong>parameters</strong>:</p>
+<ul class="simple">
+<li><p>(string): pid</p></li>
+</ul>
+<p><strong>response</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code> : “succeed”</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pid</span></code> : project identify (pid)</p></li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">uav</span></code></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">dx</span></code> (float): The diameter of an UAV</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">xyz0</span></code><span class="classifier">the UAVs square array at the initial moment</span></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">xnum</span></code> (int): The number of UAVs in the x-axis direction</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ynum</span></code> (int): The number of UAVs in the y-axis direction</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dx</span></code> (float): The distance between UAVs</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xyz0</span></code> ([float, float, float]): The minimum xyz coordinate</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">xyze</span></code><span class="classifier">the final pattern plane</span></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">vec</span></code> ([float, float, float]): The normal vector of</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dx</span></code> (float): The distance between UAVs</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xyz0</span></code> ([float, float, float]): The minimum xyz coordinate</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">file</span></code> : null</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="list-project">
+<h3>list project<a class="headerlink" href="#list-project" title="Link to this heading">¶</a></h3>
+<p><strong>path</strong> : <code class="docutils literal notranslate"><span class="pre">/list_projects</span></code></p>
+<p><strong>method</strong>: POST</p>
+<p><strong>parameters</strong>: none</p>
+<p><strong>response</strong>:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>pid</dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (string): create time</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">seg_num</span></code> (string): segment number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">N</span></code> (int): key point number per UAV</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> (int): UAV number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">running</span></code> (bool): solver status</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="delete-project">
+<h3>delete project<a class="headerlink" href="#delete-project" title="Link to this heading">¶</a></h3>
+<p><strong>path</strong> : <code class="docutils literal notranslate"><span class="pre">/delete_project</span></code></p>
+<p><strong>method</strong>: POST</p>
+<p><strong>parameters</strong>:</p>
+<ul class="simple">
+<li><p>pid</p></li>
+</ul>
+<p><strong>response</strong>:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>pid</dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (string): create time</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">seg_num</span></code> (string): segment number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">N</span></code> (int): key point number per UAV</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> (int): UAV number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">running</span></code> (bool): solver status</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="insert-transfer-plane">
+<h3>insert transfer plane<a class="headerlink" href="#insert-transfer-plane" title="Link to this heading">¶</a></h3>
+<p><strong>path</strong> : <code class="docutils literal notranslate"><span class="pre">/start_insert</span></code></p>
+<p><strong>method</strong>: POST</p>
+<p><strong>parameters</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">wh</span></code> (float): weight of the transfer plane</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vec</span></code> ([float, float, float]): Normal vector</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xyz0</span></code> ([float, float, float]): Midpoint coordinate</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">seg_idx</span></code> (int): segment id to insert</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dis</span></code> (float): threshold of point pair distance</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">w_max</span></code> (float): loss weight</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">w_dis</span></code> (float): regularization weight</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lr</span></code> (float): learning rate</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iter_num</span></code> (int): maximum iteration time</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mode</span></code> (string): loss function mode, choose from add, div</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fea</span></code> (bool): whether only feasible solution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pid</span></code> (string): pid</p></li>
+</ul>
+<p><strong>response</strong> (stream):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code> : “succeed”</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loss</span></code> (float): loss</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">danger_num</span></code> : The number of distances less than the threshold</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">avg_seg</span></code> : average path length</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_seg</span></code> : maximum path length</p></li>
+</ul>
+</section>
+<section id="delete-transfer-plane">
+<h3>delete transfer plane<a class="headerlink" href="#delete-transfer-plane" title="Link to this heading">¶</a></h3>
+<p><strong>path</strong> : <code class="docutils literal notranslate"><span class="pre">/cancel_insert</span></code></p>
+<p><strong>method</strong>: POST</p>
+<p><strong>parameters</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">seg_idx</span></code> (int): segment id to delete</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pid</span></code> (string): pid</p></li>
+</ul>
+<p><strong>response</strong> (stream):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code> : “succeed”</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pid</span></code> (string): pid</p></li>
+</ul>
+</section>
+<section id="stop-running">
+<h3>stop running<a class="headerlink" href="#stop-running" title="Link to this heading">¶</a></h3>
+<p><strong>path</strong> : <code class="docutils literal notranslate"><span class="pre">/stop_running</span></code></p>
+<p><strong>method</strong>: POST</p>
+<p><strong>parameters</strong>:</p>
+<ul class="simple">
+<li><p>pid</p></li>
+</ul>
+<p><strong>response</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code>: “succeed”</p></li>
+</ul>
+</section>
+<section id="match">
+<h3>match<a class="headerlink" href="#match" title="Link to this heading">¶</a></h3>
+<p><strong>path</strong> : <code class="docutils literal notranslate"><span class="pre">/start_match</span></code></p>
+<p><strong>method</strong>: POST</p>
+<p><strong>parameters</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pid</span></code> (string): pid</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iter_num</span></code> (int): max number of iterations</p></li>
+</ul>
+<p><strong>response</strong>  (stream):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code> : ‘succeed’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loss</span></code> :  current loss</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">avg_len</span></code> : current average path length</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_len</span></code> :  largest path length</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dis_num</span></code> : The number of key point pairs on the path with a distance less than the threshold</p></li>
+</ul>
+</section>
+<section id="optimize-segment">
+<h3>optimize segment<a class="headerlink" href="#optimize-segment" title="Link to this heading">¶</a></h3>
+<p><strong>path</strong> : <code class="docutils literal notranslate"><span class="pre">/start_path</span></code></p>
+<p><strong>method</strong>: POST</p>
+<p><strong>parameters</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pid</span></code> (string): pid</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">seg_idx</span></code> (int): segment id to optimize, -1 for all segments</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">init_mode</span></code> (string): initialization method, choose from ‘proj’, ‘inter’ and ‘rea’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">N</span></code> (int): number of key points</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dis</span></code> (float): threshold of key point pair distance</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">seg_dis</span></code> (float): threshold of segment pair distance</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cross_dis</span></code> (float): threshold of key point segment pair distance</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cross_seg_dis</span></code> (float): threshold of segment pair cross distance</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">w_max</span></code> (float): loss weight</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">w_dis</span></code> (float): regularization weight</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">w_seg_dis</span></code> (float): regularization weight</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">w_cross_dis</span></code> (float): regularization weight</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">w_cross_seg_dis</span></code> (float): regularization weight</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fea</span></code> (bool): whether only feasible solution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lr</span></code> (float): learning rate</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mode</span></code> (string): mode of loss function, choose from add, div</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">proj_mode</span></code> (string): Mode of gradient projection, choose from proj, rea, clip, inter, dyn</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iter_num</span></code> (int): max number of iterations</p></li>
+</ul>
+<p><strong>response</strong>  (stream):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">stage</span></code> : ‘solve’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code> : ‘succeed’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">epoch</span></code> : Current iteration progress</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loss</span></code> :  current loss</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">avg_len</span></code> : current average path length</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_len</span></code> :  largest path length</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dis_num</span></code> : The number of key point pairs on the path with a distance less than the threshold</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">seg_num</span></code> : The number of segment pairs on the path with a distance less than the threshold</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cross_num</span></code> : The number of segment-point pairs on the path with a distance less than the threshold</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cross_seg_num</span></code> : The number of segment pairs on the path with a cross distance less than the threshold</p></li>
+</ul>
+</section>
+<section id="output">
+<h3>output<a class="headerlink" href="#output" title="Link to this heading">¶</a></h3>
+<p><strong>path</strong> : <code class="docutils literal notranslate"><span class="pre">/start_output</span></code></p>
+<p><strong>method</strong>: POST</p>
+<p><strong>parameters</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pid</span></code> (string): pid</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dis</span></code> (int): diameter of UAV</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mode</span></code> (string): algorithm to generate frames, choose from linear, nocol</p></li>
+<li><p>‘nframe’ (int): number of frame</p></li>
+</ul>
+<p><strong>response</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code> : ‘succeed’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">col_num</span></code> (int): Number of collisions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">col_rate</span></code> (float): rate of collisions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rst</span></code> (bool): status of algorithm</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">result</span></code> : json result</p></li>
+</ul>
+</section>
+<section id="visualization">
+<h3>Visualization<a class="headerlink" href="#visualization" title="Link to this heading">¶</a></h3>
+<p><strong>path</strong> : <code class="docutils literal notranslate"><span class="pre">/view_projects</span></code></p>
+<p><strong>method</strong>: POST</p>
+<p><strong>parameters</strong>:</p>
+<ul class="simple">
+<li><p>pid</p></li>
+</ul>
+<p><strong>response</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code> : ‘succeed’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">image</span></code> : base64 encode of image</p></li>
+</ul>
+</section>
+<section id="split">
+<h3>split<a class="headerlink" href="#split" title="Link to this heading">¶</a></h3>
+<p><strong>path</strong> : <code class="docutils literal notranslate"><span class="pre">/split_all</span></code></p>
+<p><strong>method</strong>: POST</p>
+<p><strong>parameters</strong>:</p>
+<ul class="simple">
+<li><p>pid</p></li>
+</ul>
+<p><strong>response</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code> : ‘succeed’</p></li>
+</ul>
+</section>
+</section>
 </section>
 
 
